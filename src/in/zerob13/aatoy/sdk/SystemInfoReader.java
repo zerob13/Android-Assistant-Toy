@@ -1,16 +1,19 @@
-/** 
- * Filename:    SystemInfoReader.java
- * Description: Fetch some Information of Android System
- * Copyright:   www.zerob13.in
- * @author:     zerob13 
- * @version:    1.0
- * Create at:   Sep 16, 2012 4:20:41 PM
- * 
- * Modification History: 
- * Date         Author      Version     Description 
- * ------------------------------------------------------------------ 
- * Sep 16, 2012    zerob13      1.0         1.0 Version 
+/*
+ * Copyright (C) 2013 Zerob13 (http://www.zerob13.in)
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
+
 package in.zerob13.aatoy.sdk;
 
 import java.io.BufferedReader;
@@ -34,7 +37,7 @@ import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-public class SystemInfoReader {
+public final class SystemInfoReader {
 
 	/** DEBUG mode */
 	private static final boolean DEBUG = false;
@@ -47,6 +50,12 @@ public class SystemInfoReader {
 	/** Proc Memory info List */
 	public static final String[] FIELDS_PROC_MEMINFO = { "VmLck:", "VmRSS:", "VmSize:", "VmExe:", "VmStk:",
 			"VmLib", "Threads:" };
+
+    /**
+     * constructor
+     */
+	private SystemInfoReader() {
+	}
 
 	/**
 	 * Fetch CPU Info
@@ -134,16 +143,10 @@ public class SystemInfoReader {
 	}
 
 	/**
-	 * reflect to fetch the data /proc/meminfo 
+	 * reflect to fetch the data /proc/meminfo
 	 * 
-	 * @return return an Map like this:
-	 * 		MemTotal: long 
-	 *		MemFree: long
-	 *      Buffers: long 
-	 *      Cached:long 
-	 *		Active: long
-	 *      Inactive: long
-	 *      Dirty: long 
+	 * @return return an Map like this: MemTotal: long MemFree: long Buffers:
+	 *         long Cached:long Active: long Inactive: long Dirty: long
 	 * 
 	 */
 	public static Map<String, Long> getSysMemoryInfo() {
@@ -203,15 +206,10 @@ public class SystemInfoReader {
 	}
 
 	/**
-	 * reflect to fetch the data /proc/pid/status 
+	 * reflect to fetch the data /proc/pid/status
 	 * 
-	 * @return return an ArrayList like this: 
-	 * 			VmLck: long  
-	 * 			VmSize: long
-	 *          VmExe: long
-	 *          VmStk: long 
-	 *			VmLib:long 
-	 *			Threads: long 
+	 * @return return an ArrayList like this: VmLck: long VmSize: long VmExe:
+	 *         long VmStk: long VmLib:long Threads: long
 	 */
 	public static Map<String, Long> getProcMemoryInfo() {
 		Map<String, Long> result = new HashMap<String, Long>();
@@ -297,77 +295,78 @@ public class SystemInfoReader {
 		}
 		return sb.toString();
 	}
-	
+
 	/**
 	 * get Phone's IMSI
+	 * 
 	 * @param aContext
 	 * @return IMSI String
 	 */
-    public static String getIMSIString(Context aContext) {
-        TelephonyManager tm = (TelephonyManager) aContext
-                  .getSystemService(Context.TELEPHONY_SERVICE);
-        String imsi = tm.getSubscriberId();
-        if (imsi == null) {
-             return "";
-        } else {
-             return imsi;
-        }
-   }
-    
-    /**
+	public static String getIMSIString(Context aContext) {
+		TelephonyManager tm = (TelephonyManager) aContext.getSystemService(Context.TELEPHONY_SERVICE);
+		String imsi = tm.getSubscriberId();
+		if (imsi == null) {
+			return "";
+		} else {
+			return imsi;
+		}
+	}
+
+	/**
 	 * get Phone's IMEI
+	 * 
 	 * @param aContext
 	 * @return IMEI String
 	 */
-    public static String getIMEIString(Context aContext) {
-        TelephonyManager tm = (TelephonyManager) aContext
-                  .getSystemService(Context.TELEPHONY_SERVICE);
-        String imei = tm.getDeviceId();
-        if (imei == null) {
-             return "";
-        } else {
-             return imei;
-        }
-   }
-    
-    /**
-     * get Wifi Mac Address
-     * @param aContext
-     * @return String Wifi Mac Addresss
-     */
-    public static String getWifiMacString(Context aContext) {
-        WifiManager wifi = (WifiManager) aContext.getSystemService(Context.WIFI_SERVICE);
-        WifiInfo info = wifi.getConnectionInfo();
-        String wifiMac = info.getMacAddress();
-        if (wifiMac == null) {
-             return "";
-        } else {
-             return wifiMac;
-        }
-   }
-  
-    /**
-     * get Ip Address
-     * @return String ip Address
-     */
-   public static String getIpString() {
-        try {
-             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en
-                       .hasMoreElements();) {
-                  NetworkInterface intf = en.nextElement();
-                  for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr
-                            .hasMoreElements();) {
-                       InetAddress inetAddress = enumIpAddr.nextElement();
-                       if (!inetAddress.isLoopbackAddress()) {
-                            return inetAddress.getHostAddress().toString();
-                       }
-                  }
-             }
-        } catch (SocketException ex) {
-             ex.printStackTrace();
-        }
-        return "";
-   }
-  
-    
+	public static String getIMEIString(Context aContext) {
+		TelephonyManager tm = (TelephonyManager) aContext.getSystemService(Context.TELEPHONY_SERVICE);
+		String imei = tm.getDeviceId();
+		if (imei == null) {
+			return "";
+		} else {
+			return imei;
+		}
+	}
+
+	/**
+	 * get Wifi Mac Address
+	 * 
+	 * @param aContext
+	 * @return String Wifi Mac Addresss
+	 */
+	public static String getWifiMacString(Context aContext) {
+		WifiManager wifi = (WifiManager) aContext.getSystemService(Context.WIFI_SERVICE);
+		WifiInfo info = wifi.getConnectionInfo();
+		String wifiMac = info.getMacAddress();
+		if (wifiMac == null) {
+			return "";
+		} else {
+			return wifiMac;
+		}
+	}
+
+	/**
+	 * get Ip Address
+	 * 
+	 * @return String ip Address
+	 */
+	public static String getIpString() {
+		try {
+			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en
+					.hasMoreElements();) {
+				NetworkInterface intf = en.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr
+						.hasMoreElements();) {
+					InetAddress inetAddress = enumIpAddr.nextElement();
+					if (!inetAddress.isLoopbackAddress()) {
+						return inetAddress.getHostAddress().toString();
+					}
+				}
+			}
+		} catch (SocketException ex) {
+			ex.printStackTrace();
+		}
+		return "";
+	}
+
 }
