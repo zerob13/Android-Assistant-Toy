@@ -37,6 +37,9 @@ import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+/**
+ * SystemInfo Reader
+ */
 public final class SystemInfoReader {
 
 	/** DEBUG mode */
